@@ -17,4 +17,12 @@ describe("Voting", function () {
 
     expect(await voting.getVotes("Bob")).to.equal(0);
   });
+
+  it("should not allow double voting", async function () {
+    const voting = await ethers.deployContract("Voting");
+
+    await voting.vote("Alice");
+
+    await expect(voting.vote("Bob")).to.be.revertedWith("You already voted");
+  });
 });
