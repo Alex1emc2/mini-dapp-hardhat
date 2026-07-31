@@ -1,6 +1,6 @@
 {
   "_format": "hh3-sol-build-info-1",
-  "id": "solc-0_8_28-7ff7a2704cc7108de81934c3c97cc8960c66b494",
+  "id": "solc-0_8_28-e1b5dc3872a24a24ca01bbba766fb8b4996afc8c",
   "solcVersion": "0.8.28",
   "solcLongVersion": "0.8.28+commit.7893614a",
   "compilerType": "solc",
@@ -35,7 +35,7 @@
     },
     "sources": {
       "project/contracts/Voting.sol": {
-        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.28;\n\n\ncontract Voting {\n  mapping(string => uint256) public votes;\n\n  function vote(string memory candidate) public {\n    votes[candidate] += 1;\n  }\n\n  function getVotes(string memory candidate) public view returns (uint256) {\n    return votes[candidate];\n  }\n}"
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.28;\n\n\ncontract Voting {\n  mapping(string => uint256) public votes;\n  mapping (address => bool) hasVoted;\n\n  function vote(string memory candidate) public {\n    require(!hasVoted[msg.sender], \"You already voted\");\n    hasVoted[msg.sender] = true;\n    votes[candidate] += 1;\n  }\n\n  function getVotes(string memory candidate) public view returns (uint256) {\n    return votes[candidate];\n  }\n}"
       }
     }
   }
