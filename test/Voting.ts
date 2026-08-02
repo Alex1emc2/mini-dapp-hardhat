@@ -5,7 +5,7 @@ const { ethers } = await network.connect();
 
 describe("Voting", function () {
   it("should count a vote corectly", async function () {
-    const voting = await ethers.deployContract("Voting");
+    const voting = await ethers.deployContract("Voting", [["Alice", "Bob"]]);
 
     await voting.vote("Alice");
 
@@ -13,16 +13,22 @@ describe("Voting", function () {
   });
 
   it("should start at zero vote", async function () {
-    const voting = await ethers.deployContract("Voting");
+    const voting = await ethers.deployContract("Voting", [["Alice", "Bob"]]);
 
     expect(await voting.getVotes("Bob")).to.equal(0);
   });
 
   it("should not allow double voting", async function () {
-    const voting = await ethers.deployContract("Voting");
+    const voting = await ethers.deployContract("Voting", [["Alice", "Bob"]]);
 
     await voting.vote("Alice");
 
     await expect(voting.vote("Bob")).to.be.revertedWith("You already voted");
+  });
+
+  it("should read all candidates", async function () {
+    const voting = await ethers.deployContract("Voting", [["Alice", "Bob"]]);
+
+    expect(await voting.getAllCandidates()).to.deep.equal(["Alice", "Bob"]);
   });
 });
