@@ -6,6 +6,7 @@ contract Voting {
   mapping(string => uint256) public votes;
   mapping (address => bool) hasVoted;
   string[] public candidates;
+  uint256 public allVotes;
 
   constructor (string[] memory _candidates) {
     candidates = _candidates;
@@ -15,6 +16,7 @@ contract Voting {
     require(!hasVoted[msg.sender], "You already voted");
     hasVoted[msg.sender] = true;
     votes[candidate] += 1;
+    allVotes += 1;
   }
 
   function getVotes(string memory candidate) public view returns (uint256) {
@@ -23,5 +25,9 @@ contract Voting {
 
   function getAllCandidates() public view returns (string[] memory) {
     return candidates;
+  }
+
+  function getAllVotes() public view returns (uint256) {
+    return allVotes;
   }
 }

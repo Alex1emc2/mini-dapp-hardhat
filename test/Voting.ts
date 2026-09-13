@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { network } from "hardhat";
+import Voting from "../ignition/modules/Voting.js";
 
 const { ethers } = await network.connect();
 
@@ -30,5 +31,19 @@ describe("Voting", function () {
     const voting = await ethers.deployContract("Voting", [["Alice", "Bob"]]);
 
     expect(await voting.getAllCandidates()).to.deep.equal(["Alice", "Bob"]);
+  });
+
+  it("should read all votes", async function () {
+    const [account1, account2, account3, account4, account5] =
+      await ethers.getSigners();
+    const voting = await ethers.deployContract("Voting", [["Alice", "Bob"]]);
+
+    await voting.vote("Bob");
+    await voting.connect(account2).vote("Bob");
+    await voting.connect(account3).vote("Alice");
+    await voting.connect(account4).vote("Bob");
+    await voting.connect(account5).vote("Alice");
+
+    expect(await voting.getAllVotes()).to.equal(5);
   });
 });

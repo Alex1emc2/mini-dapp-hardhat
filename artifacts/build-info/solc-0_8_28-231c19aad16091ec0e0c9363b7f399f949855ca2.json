@@ -1,0 +1,46 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-231c19aad16091ec0e0c9363b7f399f949855ca2",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "compilerType": "solc",
+  "userSourceNameMap": {
+    "contracts/Counter.sol": "project/contracts/Counter.sol",
+    "contracts/Voting.sol": "project/contracts/Voting.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/Counter.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.23;\r\n\r\n\r\ncontract Counter {\r\n    uint256 public count;\r\n    bool public end;\r\n\r\n    function addCount(uint256 amount) public {\r\n        count += amount;\r\n    }\r\n\r\n    function getCount() public view returns (uint256) {\r\n        return count;\r\n    }\r\n\r\n    function decreament(uint256 amount) public {\r\n        require(count >= amount, \"The counter can't under 0\");\r\n        count -= amount;\r\n    }\r\n\r\n    function reset() public {\r\n        count = 0;\r\n    }\r\n}\r\n"
+      },
+      "project/contracts/Voting.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.28;\n\n\ncontract Voting {\n  mapping(string => uint256) public votes;\n  mapping (address => bool) hasVoted;\n  string[] public candidates;\n  uint256 public allVotes;\n\n  constructor (string[] memory _candidates) {\n    candidates = _candidates;\n  }\n\n  function vote(string memory candidate) public {\n    require(!hasVoted[msg.sender], \"You already voted\");\n    hasVoted[msg.sender] = true;\n    votes[candidate] += 1;\n    allVotes += 1;\n  }\n\n  function getVotes(string memory candidate) public view returns (uint256) {\n    return votes[candidate];\n  }\n\n  function getAllCandidates() public view returns (string[] memory) {\n    return candidates;\n  }\n\n  function getAllVotes() public view returns (uint256) {\n    return allVotes;\n  }\n}"
+      }
+    }
+  }
+}

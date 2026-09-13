@@ -6,18 +6,22 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
   
 
   export interface VotingInterface extends Interface {
-    getFunction(nameOrSignature: "candidates" | "getAllCandidates" | "getVotes" | "vote" | "votes"): FunctionFragment;
+    getFunction(nameOrSignature: "allVotes" | "candidates" | "getAllCandidates" | "getAllVotes" | "getVotes" | "vote" | "votes"): FunctionFragment;
 
     
 
-    encodeFunctionData(functionFragment: 'candidates', values: [BigNumberish]): string;
+    encodeFunctionData(functionFragment: 'allVotes', values?: undefined): string;
+encodeFunctionData(functionFragment: 'candidates', values: [BigNumberish]): string;
 encodeFunctionData(functionFragment: 'getAllCandidates', values?: undefined): string;
+encodeFunctionData(functionFragment: 'getAllVotes', values?: undefined): string;
 encodeFunctionData(functionFragment: 'getVotes', values: [string]): string;
 encodeFunctionData(functionFragment: 'vote', values: [string]): string;
 encodeFunctionData(functionFragment: 'votes', values: [string]): string;
 
-    decodeFunctionResult(functionFragment: 'candidates', data: BytesLike): Result;
+    decodeFunctionResult(functionFragment: 'allVotes', data: BytesLike): Result;
+decodeFunctionResult(functionFragment: 'candidates', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'getAllCandidates', data: BytesLike): Result;
+decodeFunctionResult(functionFragment: 'getAllVotes', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'getVotes', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'vote', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'votes', data: BytesLike): Result;
@@ -59,6 +63,14 @@ decodeFunctionResult(functionFragment: 'votes', data: BytesLike): Result;
 
     
     
+    allVotes: TypedContractMethod<
+      [],
+      [bigint],
+      'view'
+    >
+    
+
+    
     candidates: TypedContractMethod<
       [arg0: BigNumberish, ],
       [string],
@@ -70,6 +82,14 @@ decodeFunctionResult(functionFragment: 'votes', data: BytesLike): Result;
     getAllCandidates: TypedContractMethod<
       [],
       [string[]],
+      'view'
+    >
+    
+
+    
+    getAllVotes: TypedContractMethod<
+      [],
+      [bigint],
       'view'
     >
     
@@ -101,7 +121,12 @@ decodeFunctionResult(functionFragment: 'votes', data: BytesLike): Result;
 
     getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
-    getFunction(nameOrSignature: 'candidates'): TypedContractMethod<
+    getFunction(nameOrSignature: 'allVotes'): TypedContractMethod<
+      [],
+      [bigint],
+      'view'
+    >;
+getFunction(nameOrSignature: 'candidates'): TypedContractMethod<
       [arg0: BigNumberish, ],
       [string],
       'view'
@@ -109,6 +134,11 @@ decodeFunctionResult(functionFragment: 'votes', data: BytesLike): Result;
 getFunction(nameOrSignature: 'getAllCandidates'): TypedContractMethod<
       [],
       [string[]],
+      'view'
+    >;
+getFunction(nameOrSignature: 'getAllVotes'): TypedContractMethod<
+      [],
+      [bigint],
       'view'
     >;
 getFunction(nameOrSignature: 'getVotes'): TypedContractMethod<
